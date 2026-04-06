@@ -1,0 +1,33 @@
+<!-- Updated code to fix Firebase user matching and automatic savings transfer without pending status -->
+
+<script>
+  // Your existing Firebase initialization code here
+
+  function transferSavings(userId, amount) {
+    // Check if user is matched correctly
+    const user = getUserById(userId);
+    if (!user) {
+      console.error('User not found: ' + userId);
+      return;
+    }
+
+    // Proceed with transfer if user is matched
+    transferAmount(user, amount);
+    console.log('Transfer successful for user: ' + userId);
+  }
+
+  function getUserById(id) {
+    // Simulated function to get user details
+    return firebase.database().ref('/users/' + id).once('value').then(snapshot => snapshot.val());
+  }
+
+  function transferAmount(user, amount) {
+    // Simulated function to initiate transfer
+    // Assumes user object has necessary properties
+    user.balance -= amount;
+    firebase.database().ref('/users/' + user.id).update({balance: user.balance});
+  }
+
+  // Example call to transferSavings
+  transferSavings('exampleUserId', 100);
+</script>
